@@ -12,21 +12,24 @@
 
   Bootloader must be [unlocked](https://xdaforums.com/t/oneplus-6-unlock-bootloader-flash-twrp-root-nandroid-efs-backup.3792643/). Re-locking after installation is not supported.
 
-  Must have [OxygenOS 11.1.2.2 firmware](https://oxygenos.oneplus.net/OnePlus6Oxygen_22.J.62_OTA_0620_all_2111252336_287bcb1636d743d3.zip) in your current slot. This does NOT mean you need to go back to stock first; it DOES mean that you have updated firmware partitions since the last time using MSMTool or a "back to stock" fastboot ROM zip. If you're not sure, follow the firmware updating guide for enchilada from the LineageOS wiki [here](https://wiki.lineageos.org/devices/enchilada/fw_update/), or [use MSMTool](https://xdaforums.com/t/op6-latest-10-3-8-collection-of-unbrick-tools.3914109/) to go back to stock OxygenOS with locked bootloader and start updating via OTA until you're up to date.
+  Must have [OxygenOS 11.1.2.2 firmware](https://oxygenos.oneplus.net/OnePlus6Oxygen_22.J.62_OTA_0620_all_2111252336_287bcb1636d743d3.zip) in your current slot.  
+  This does NOT mean you need to go back to stock first.  
+  It DOES mean that you have updated firmware partitions since the last time using MSMTool or a "back to stock" fastboot ROM zip.  
+  If you're not sure, follow the firmware updating guide for enchilada from the LineageOS wiki [here](https://wiki.lineageos.org/devices/enchilada/fw_update/), or [use MSMTool](https://xdaforums.com/t/op6-latest-10-3-8-collection-of-unbrick-tools.3914109/) to go back to stock OxygenOS with locked bootloader and start updating via OTA until you're up to date.
 
 - Computer setup:
 
   Must have current AOSP "platform-tools" installed and/or on your $PATH.
 
-  - Use current release from [developer.android.com](https://developer.android.com/studio/releases/platform-tools.html), not "all in one" bundles or out-of-date packages from your Linux distro.
+  Use current release from [developer.android.com](https://developer.android.com/studio/releases/platform-tools.html), not "all in one" bundles or out-of-date packages from your Linux distro.
 
   Must have working adb/fastboot USB drivers.
 
-  - For Windows: You need to install [OnePlus USB drivers](https://drive.google.com/file/d/1L7EZGx5mgeQYXO19Vsp9FWu9GXhF45Qs/view) for fastboot in OEM Bootloader, and [Google USB drivers](https://developer.android.com/studio/run/win-usb) for "userspace fastboot" environment within crDroid Recovery.
+  For Windows: You need to install [OnePlus USB drivers](https://drive.google.com/file/d/1L7EZGx5mgeQYXO19Vsp9FWu9GXhF45Qs/view) for fastboot in OEM Bootloader, and [Google USB drivers](https://developer.android.com/studio/run/win-usb) for "userspace fastboot" environment within crDroid Recovery.
 
-    NOTE: Use of PowerShell [v7.x or newer](https://github.com/PowerShell/PowerShell/releases), and [Windows Terminal](https://apps.microsoft.com/detail/9N0DX20HK701?hl=en-us&gl=US&ocid=pdpshare) is highly recommended.
+  NOTE: Use of PowerShell [v7.x or newer](https://github.com/PowerShell/PowerShell/releases), and [Windows Terminal](https://apps.microsoft.com/detail/9N0DX20HK701?hl=en-us&gl=US&ocid=pdpshare) is highly recommended.
 
-  - For Linux or MacOS: Drivers included in any release within the last few years typically work already.
+  For Linux or MacOS: Drivers included in any release within the last few years typically work already.
 
   For more info/troubleshooting, see [the adb and fastboot guide](https://wiki.lineageos.org/adb_fastboot_guide) on the LineageOS wiki.
 
@@ -50,13 +53,11 @@
 
 - Optional files:
 
-  - Google Apps or microG installer zip (see download page for recommended link, or support forum for more options)
+  Google Apps or microG installer zip (see download page for recommended link, or support forum for more options).
 
-    PROTIP: Save a copy of the Google Apps or microG zip file with your computer backups. It is likely you will need to flash from recovery at a later date; you will need this file!
+  PROTIP: Save a copy of the Google Apps or microG zip file with your computer backups. It is likely you will need to flash from recovery at a later date; you will need this file!
 
-  - Disable_Dm-Verity_ForceEncrypt:
-
-    NO.
+  NOTE: "Disable_Dm-Verity_ForceEncrypt" or other attempts to disable userdata encryption are both unsupported and ***highly*** discouraged.
 
 
 ### First Time Installation (Clean Flash):
@@ -64,9 +65,8 @@ _Coming from any other ROM or major Android version_
 
 ***WARNING: The first-time installation process includes formatting userdata, which will erase all contents of the phone's internal storage. Back up all data (photos, downloads, messages, etc.) that you wish to keep before proceeding.***
 
-Notice that each command is prefixed with a ***"./"***. This is important. Please keep that prefix when you run each command.
-
-(unless you know how to add things to your $PATH and can verify which executable is running, of course)
+Notice that each command is prefixed with a ***"./"***. This is important. Please keep that prefix when you run each command.  
+_(unless you know how to add things to your $PATH and can verify which executable is running, of course)_
 
 - Step 1: On the computer, unzip the "platform-tools-latest-xxx.zip" file you downloaded earlier to any directory from which you can run programs.
 
@@ -112,7 +112,7 @@ Notice that each command is prefixed with a ***"./"***. This is important. Pleas
 
 - Step 5b (if using older built-in PowerShell v1.x or v2.x that came with Windows 7, 8, or 10):
 
-  Older Powershell versions do not understand using "&&" to combine multiple commands into one long line. You will need to either install PowerShell v7 or newer, or copy/paste the command from Step 5a above into a text editor and split it into multiple lines, deleting all the "&&" symbols and inserting a new line instead, and running the commands one at a time as follows:
+  Older Powershell versions do not understand using "&&" to combine multiple commands into one long line. You will need to copy, paste, and run the commands one at a time as follows:
 
   ```
   ./fastboot flash boot_a boot.img
@@ -126,9 +126,41 @@ Notice that each command is prefixed with a ***"./"***. This is important. Pleas
   ./fastboot flash dtbo_a dtbo.img
   ```
 
-  ...
+  ```
+  ./fastboot flash dtbo_b dtbo.img
+  ```
 
-  and so on.
+  ```
+  ./fastboot flash vbmeta_a vbmeta.img
+  ```
+
+  ```
+  ./fastboot flash vbmeta_b vbmeta.img
+  ```
+
+  ```
+  ./fastboot erase system_a
+  ```
+
+  ```
+  ./fastboot erase system_b
+  ```
+
+  ```
+  ./fastboot erase odm_a
+  ```
+
+  ```
+  ./fastboot erase odm_b
+  ```
+
+  ```
+  ./fastboot erase vendor_a
+  ```
+
+  ```
+  ./fastboot erase vendor_b
+  ```
 
   NOTE: You will see a message after running the "./fastboot erase" commands asking if you meant to format instead. You can safely disregard this message.
 
@@ -208,15 +240,15 @@ Notice that each command is prefixed with a ***"./"***. This is important. Pleas
 
 - Step 16: Post-installation recommendations:
 
-  - OnePlus 6-series hardware seems to respond best if you reboot as quickly as possible after completing the first boot Setup Wizard when doing a clean install. Finish tweaking settings after.
+  OnePlus 6-series hardware seems to respond best if you reboot as quickly as possible after completing the first boot Setup Wizard when doing a clean install. Finish tweaking settings after.
 
-  - If using Google Apps, you can skip restoring data during first boot Setup Wizard, because it will prompt again to "Continue setting up this device" after rebooting once (as mentioned above).
+  If using Google Apps, you can skip restoring data during first boot Setup Wizard, because it will prompt again to "Continue setting up this device" after rebooting once (as mentioned above).
 
-  - If using Google apps, open Play Store and let it update Google components, and check for "Device is certified" attestation result before enabling Developer Options or rooting.
+  If using Google apps, open Play Store and let it update Google components, and check for "Device is certified" attestation result before enabling Developer Options or rooting.
 
-  - Disable NFC unless you're actually using it. Google likes to enable this and hide the setting now.
+  Disable NFC unless you're actually using it. Google likes to enable this and hide the setting now.
 
-  - Disable "Shake to clear recents" option in "crDroid Home" launcher settings, under the "Recents" menu. Our sensor hardware does NOT like that option and it will cause massive slowdowns and SystemUI crashes after a few hours.
+  Disable "Shake to clear recents" option in "crDroid Home" launcher settings, under the "Recents" menu. Our sensor hardware does NOT like that option and it will cause massive slowdowns and SystemUI crashes after a few hours.
 
 
 ### Update Installation:
@@ -285,7 +317,4 @@ _(Does NOT process OTA survival scripts, so you MUST manually re-flash installer
 - Step 6: Disconnect the USB cable, navigate back to the top level menu of recovery on the phone, and choose "Reboot system now" to continue using crDroid.
 
 
-_Please see the support forum & Telegram group links on the download page if you are unable to complete the instructions successfully._
-
-
-_(Instructions adapted with permission from the dynamic partitions conversion guide originally by jabashque and AnierinBliss, with extensive adaptation & updating over the years by Terminator_J)._
+_(Instructions adapted with permission from the dynamic partitions conversion guide originally by jabashque and AnierinBliss, with extensive adaptation & updating over the years by Terminator\_J)._
